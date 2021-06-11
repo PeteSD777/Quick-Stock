@@ -32,7 +32,13 @@ function FindStockSymbol(){
          fetch('https://finnhub.io/api/v1/search?q='+phrase+'&token=c312v3qad3idae6u6sp0')
          
          
-         .then(resp=> resp.json())
+         .then(resp=> {
+             if(resp.status>400){
+                 throw new Error("Server no response")
+             }
+       return resp.json()
+
+         })
          .then((resp)=>{
              setStock(resp.result[0].displaySymbol)
              const stockid=resp.result[0].displaySymbol
